@@ -87,7 +87,7 @@
             placeholder: this.$t('nsInput.walletPassword.placeholder'),
             hasAppend: false,
             inputType: 'password',
-            maxSize: 20,
+            maxSize: 32,
             errorInfo: '',
           },
 
@@ -122,7 +122,7 @@
             placeholder: this.$t('nsInput.walletPassword.placeholder'),
             hasAppend: false,
             inputType: 'password',
-            maxSize: 20,
+            maxSize: 32,
             errorInfo: '',
           },
 
