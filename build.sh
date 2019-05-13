@@ -1,46 +1,34 @@
 #!/bin/sh
 
+BASEDIR="$( cd "$(dirname "$0")" ; pwd -P )"
+
 echo 'clean dist'
-rm -rf ./dist/*
-
-echo 'set basic dir & files'
-
-mkdir ./dist/mac
-mkdir ./dist/linux
-mkdir ./dist/windows
-
-cp -r ./init_files/* ./dist/mac/
-cp -r ./init_files/* ./dist/linux/
-cp -r ./init_files/* ./dist/windows/
+rm -rf ${BASEDIR}/dist/*
 
 echo  'build web'
-cd ./NKNMining/web/
+cd ${BASEDIR}/NKNMining/web/
 npm install
 npm run build
 
-mkdir -p ../../dist/mac/web/
-mkdir -p ../../dist/linux/web/
-mkdir -p ../../dist/windows/web/
-
-cp -r ./dist/* ../../dist/mac/web/
-cp -r ./dist/* ../../dist/linux/web/
-cp -r ./dist/* ../../dist/windows/web/
-
-cd ../src/NKNMining/
-
+cd ${BASEDIR}/NKNMining/src/NKNMining/
 echo 'install golang package'
 glide install
 
-echo 'build MAC version'
-GOPATH=$GOPATH:$PWD/../../ GOOS=darwin GOARCH=amd64 go build
-mv ./NKNMining ../../../dist/mac/
+IDENTIFIER="linux-386 linux-amd64 linux-arm linux-arm64 linux-mips linux-mipsle darwin-386 darwin-amd64 windows-386 windows-amd64"
 
-echo 'build linux version'
-GOPATH=$GOPATH:$PWD/../../ GOOS=linux GOARCH=amd64 go build
-mv ./NKNMining ../../../dist/linux/
+for id in ${IDENTIFIER}; do
+	echo "build ${id}"
+	mkdir ${BASEDIR}/dist/${id}
+	cp -r ${BASEDIR}/init_files/* ${BASEDIR}/dist/${id}/
 
-echo 'build windows version'
-GOPATH=$GOPATH:$PWD/../../ GOOS=windows GOARCH=amd64 go build
-mv ./NKNMining.exe ../../../dist/windows/
+	mkdir -p ${BASEDIR}/dist/${id}/web/
+	cp -r ${BASEDIR}/NKNMining/web/dist/* ${BASEDIR}/dist/${id}/web/
+
+	id_os=$(echo ${id} | cut -d - -f 1)
+	id_arch=$(echo ${id} | cut -d - -f 2)
+
+	GOPATH=$GOPATH:${BASEDIR}/NKNMining/ GOOS=${id_os} GOARCH=${id_arch} GOMIPS=softfloat go build
+	mv ${BASEDIR}/NKNMining/src/NKNMining/NKNMining ${BASEDIR}/dist/${id}/
+done 
 
 echo 'done! ^_T'
