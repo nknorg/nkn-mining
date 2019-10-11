@@ -1,3 +1,5 @@
+# **This repo is no longer compatible with mainnet. Please use [nkn](https://github.com/nknorg/nkn) with web-gui instead!**
+
 # nkn-mining
 
 #### [中文说明](https://github.com/nknorg/nkn-mining/blob/master/README_ZH.md)
