@@ -1,4 +1,4 @@
-# **This repo is no longer compatible with mainnet. Please use [nkn](https://github.com/nknorg/nkn) with web-gui instead!**
+# **This repo is no longer maintained and is not compatible with mainnet because [nkn](https://github.com/nknorg/nkn) now has web-gui built-in. Please use [nkn](https://github.com/nknorg/nkn) with web-gui instead!**
 
 # nkn-mining
 
